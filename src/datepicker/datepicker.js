@@ -337,8 +337,10 @@ angular.module('mgcrea.ngStrap.datepicker', [
 
         function validateAgainstMinMaxDate(parsedDate) {
           if (!angular.isDate(parsedDate)) return;
-          var isMinValid = isNaN(datepicker.$options.minDate) || parsedDate.getTime() >= datepicker.$options.minDate;
-          var isMaxValid = isNaN(datepicker.$options.maxDate) || parsedDate.getTime() <= datepicker.$options.maxDate;
+          var rangeTestDate = dateParser.timezoneOffsetAdjust(parsedDate, options.timezone, true);
+          //console.debug('rangeTestDate', rangeTestDate, 'minDate, maxDate', datepicker.$options.minDate, datepicker.$options.maxDate)
+          var isMinValid = isNaN(datepicker.$options.minDate) || rangeTestDate.getTime() >= datepicker.$options.minDate;
+          var isMaxValid = isNaN(datepicker.$options.maxDate) || rangeTestDate.getTime() <= datepicker.$options.maxDate;
           var isValid = isMinValid && isMaxValid;
           controller.$setValidity('date', isValid);
           controller.$setValidity('min', isMinValid);
